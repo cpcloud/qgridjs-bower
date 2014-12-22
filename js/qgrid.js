@@ -1,10 +1,10 @@
 define([
     'jquery',
-    "underscore",
+    'underscore',
     'moment',
-    'date_filter',
-    'slider_filter',
-    'text_filter'
+    './qgrid.datefilter',
+    './qgrid.sliderfilter',
+    './qgrid.textfilter'
 ], function ($, _, moment, date_filter, slider_filter, text_filter) {
   "use strict";
 
