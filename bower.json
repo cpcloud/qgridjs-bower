@@ -8,6 +8,9 @@
   "moduleType": [
     "amd"
   ],
+  "main": [
+    "js/qgrid.js"
+  ],
   "license": "Apache 2.0",
   "homepage": "https://github.com/cpcloud/qgridjs",
   "ignore": [
