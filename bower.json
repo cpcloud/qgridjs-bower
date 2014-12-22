@@ -4,12 +4,12 @@
   "authors": [
     "Quantopian Inc. <tshawver@quantopian.com>"
   ],
-  "description": "A Pandas DataFrame viewer for IPython Notebook",
+  "description": "A sweet table widget for large datasets in js",
   "moduleType": [
     "amd"
   ],
   "license": "Apache 2.0",
-  "homepage": "https://github.com/quantopian/qgrid",
+  "homepage": "https://github.com/cpcloud/qgridjs",
   "ignore": [
     "**/.*",
     "node_modules",
