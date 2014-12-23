@@ -2,7 +2,7 @@ define([
     'jquery',
     'handlebars',
     './qgrid.filterbase',
-    'jqueryui'
+    'jquery-ui'
 ], function ($, handlebars, filter_base) {
   "use strict";
 

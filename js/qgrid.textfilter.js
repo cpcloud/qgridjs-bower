@@ -3,7 +3,7 @@ define([
     'lodash',
     'handlebars',
     './qgrid.filterbase',
-    'jqueryui'
+    'jquery-ui'
 ], function ($, _, handlebars, filter_base) {
   "use strict";
 
