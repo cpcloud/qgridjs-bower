@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'underscore',
+    'lodash',
     'moment',
     './qgrid.datefilter',
     './qgrid.sliderfilter',

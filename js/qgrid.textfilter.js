@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'underscore',
+    'lodash',
     'handlebars',
     './qgrid.filterbase',
     'jqueryui'

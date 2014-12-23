@@ -1,5 +1,5 @@
 {
-  "name": "qgridjs",
+  "name": "qgrid",
   "version": "0.1.1",
   "authors": [
     "Quantopian Inc. <tshawver@quantopian.com>"
@@ -24,7 +24,7 @@
     "slickgrid": "~2.1.0",
     "jquery": ">=1.9.1",
     "moment": "latest",
-    "underscore": "latest",
+    "lodash": "latest",
     "handlebars": "latest",
     "jquery-ui": "latest"
   }
