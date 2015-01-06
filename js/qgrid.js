@@ -1,10 +1,10 @@
 require.config({
     paths: {
-        'filterbase': 'qgridjs/js/qgrid.filterbase',
-        'datefilter': 'qgridjs/js/qgrid.datefilter',
-        'securityfilter': 'qgridjs/js/qgrid.securityfilter',
-        'sliderfilter': 'qgridjs/js/qgrid.sliderfilter',
-        'textfilter': 'qgridjs/js/qgrid.textfilter'
+        'filterbase': 'qgrid/js/qgrid.filterbase',
+        'datefilter': 'qgrid/js/qgrid.datefilter',
+        'securityfilter': 'qgrid/js/qgrid.securityfilter',
+        'sliderfilter': 'qgrid/js/qgrid.sliderfilter',
+        'textfilter': 'qgrid/js/qgrid.textfilter'
     }
 });
 
