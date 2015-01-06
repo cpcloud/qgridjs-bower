@@ -45,7 +45,7 @@ define([
     if (typeof layout_options === 'undefined')
         this.layout_options = default_options;
     else
-        this.layout_options = _.merge(default_options, options);
+        this.layout_options = _.merge(default_options, layout_options);
 
     this.row_data = [];
     this.columns = [];
