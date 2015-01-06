@@ -7,14 +7,15 @@ define([
 ], function ($, _, handlebars, filter_base) {
   "use strict";
 
-  var TextFilter = function(field){
+  var TextFilter = function(field) {
     this.base = filter_base.FilterBase;
     this.base(field);
     this.items_hash = {};
-  }
+  };
+
   TextFilter.prototype = new filter_base.FilterBase;
 
-  TextFilter.prototype.get_filter_template = function(){
+  TextFilter.prototype.get_filter_template = function() {
     return handlebars.compile(
       "<div class='text-filter grid-filter dropdown-menu {{type}}-filter'>" +
         "<h3 class='popover-title'>" +
@@ -33,13 +34,16 @@ define([
         "</div>" +
       "</div>"
     );
-  }
+  };
 
   TextFilter.prototype.initialize_min_max = function(item){
     $.proxy(this.base.prototype.initialize_min_max.call(this, item), this);
     var item_value = item[this.field];
-    this.items_hash[item_value] = {id: item_value, value: item_value}
-  }
+    this.items_hash[item_value] = {
+        id: item_value,
+        value: item_value
+    };
+  };
 
   TextFilter.prototype.initialize_controls = function(){
     $.proxy(this.base.prototype.initialize_controls.call(this), this);
@@ -156,9 +160,9 @@ define([
       $(this).trigger("filter_changed");
       return false;
     }, this));
-  }
+  };
 
-  TextFilter.prototype.toggle_row_selected = function(row_index){
+  TextFilter.prototype.toggle_row_selected = function(row_index) {
     var old_selected_rows = this.row_selection_model.getSelectedRows();
     // if the row is already selected, remove it from the selected rows array.
     var selected_rows = old_selected_rows.filter(function(word){
@@ -169,7 +173,7 @@ define([
       selected_rows.push(row_index);
     }
     this.row_selection_model.setSelectedRows(selected_rows);
-  }
+  };
 
   TextFilter.prototype.handle_grid_clicked = function(e, args){
     this.toggle_row_selected(args.row);
@@ -177,7 +181,7 @@ define([
     if (!active_cell){
       e.stopImmediatePropagation();
     }
-  }
+  };
 
   TextFilter.prototype.handle_grid_key_down = function(e, args){
     var active_cell = this.filter_grid.getActiveCell();
@@ -200,19 +204,19 @@ define([
         return;
       }
     }
-  }
+  };
 
   TextFilter.prototype.sort_if_needed = function(force){
     if (force || this.sort_needed){
       this.data_view.sort(this.sort_comparer, true);
       this.sort_needed = false;
     }
-  }
+  };
 
   TextFilter.prototype.focus_on_search_box = function(){
     this.security_search.focus().val(this.search_string);
     this.filter_grid.resetActiveCell();
-  }
+  };
 
   TextFilter.prototype.handle_text_input_key_up = function(e){
     var old_search_string = this.search_string;
@@ -233,13 +237,13 @@ define([
       this.data_view.refresh();
       this.sort_if_needed();
     }
-  }
+  };
 
-  TextFilter.prototype.handle_text_input_click = function(e){
+  TextFilter.prototype.handle_text_input_click = function(e) {
     this.filter_grid.resetActiveCell();
-  }
+  };
 
-  TextFilter.prototype.handle_selection_changed = function(e, args){
+  TextFilter.prototype.handle_selection_changed = function(e, args) {
     var all_rows = this.data_view.getItems();
 
     // Set selected to false for all visible rows (non visible rows
@@ -284,7 +288,7 @@ define([
     this.sort_needed = true;
 
     $(this).trigger("filter_changed");
-  }
+  };
 
   TextFilter.prototype.handle_filter_button_clicked = function(e){
     $.proxy(this.base.prototype.handle_filter_button_clicked.call(this, e), this);
@@ -293,11 +297,11 @@ define([
     this.sort_if_needed();
     this.focus_on_search_box();
     return false;
-  }
+  };
 
   TextFilter.prototype.is_active = function(){
     return this.filter_list != null;
-  }
+  };
 
   TextFilter.prototype.reset_filter = function(){
     this.search_string = "";
@@ -305,14 +309,13 @@ define([
     this.data_view.refresh();
     this.row_selection_model.setSelectedRows([]);
     this.filter_list = null;
-  }
+  };
 
-  TextFilter.prototype.include_item = function(item){
-    if (this.filter_list && !this.filter_list[item[this.field]]){
-      return false;
-    }
-    return true;
-  }
+  TextFilter.prototype.include_item = function(item) {
+    return !(this.filter_list && !this.filter_list[item[this.field]]);
+  };
 
-  return {'TextFilter': TextFilter}
+  return {
+      TextFilter: TextFilter
+  };
 });
