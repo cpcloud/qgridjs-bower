@@ -300,7 +300,7 @@ define([
   };
 
   TextFilter.prototype.is_active = function(){
-    return this.filter_list != null;
+    return this.filter_list !== null;
   };
 
   TextFilter.prototype.reset_filter = function(){
