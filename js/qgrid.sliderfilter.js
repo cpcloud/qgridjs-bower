@@ -74,11 +74,11 @@ define([
         this.filter_elem.find(".min-value").html(this.filter_value_min);
         this.filter_elem.find(".max-value").html(this.filter_value_max);
 
-        if (this.filter_value_min == this.slider_min){
+        if (this.filter_value_min === this.slider_min){
           this.filter_value_min = null;
         }
 
-        if (this.filter_value_max == this.slider_max){
+        if (this.filter_value_max === this.slider_max){
           this.filter_value_max = null;
         }
 
