@@ -71,7 +71,7 @@ define([
 
     var text_filter = function(item, args){
       if (this.search_string){
-        if (item.value.toLowerCase().indexOf(this.search_string.toLowerCase()) == -1){
+        if (item.value.toLowerCase().indexOf(this.search_string.toLowerCase()) === -1){
           return false;
         }
       }
@@ -169,7 +169,7 @@ define([
       return word !== row_index;
     });
     // otherwise add it to the selected rows array so it gets selected
-    if (selected_rows.length == old_selected_rows.length){
+    if (selected_rows.length === old_selected_rows.length){
       selected_rows.push(row_index);
     }
     this.row_selection_model.setSelectedRows(selected_rows);
@@ -186,19 +186,19 @@ define([
   TextFilter.prototype.handle_grid_key_down = function(e, args){
     var active_cell = this.filter_grid.getActiveCell();
     if (active_cell){
-      if (e.keyCode == 13){ // enter key
+      if (e.keyCode === 13){ // enter key
         this.toggle_row_selected(active_cell.row);
         return;
       }
 
       // focus on the search box for any key other than the up/down arrows
-      if (e.keyCode != 40 && e.keyCode != 38){
+      if (e.keyCode !== 40 && e.keyCode !== 38){
         this.focus_on_search_box();
         return;
       }
 
       // also focus on the search box if we're at the top of the grid and this is the up arrow
-      else if (active_cell.row == 0 && e.keyCode == 38){
+      else if (active_cell.row === 0 && e.keyCode === 38) {
         this.focus_on_search_box();
         e.preventDefault();
         return;
@@ -220,12 +220,12 @@ define([
 
   TextFilter.prototype.handle_text_input_key_up = function(e){
     var old_search_string = this.search_string;
-    if (e.keyCode == 40){ // down arrow
+    if (e.keyCode === 40){ // down arrow
       this.filter_grid.focus();
       this.filter_grid.setActiveCell(0, 0);
       return;
     }
-    if (e.keyCode == 13){ // enter key
+    if (e.keyCode === 13){ // enter key
       if (this.security_grid.getDataLength() > 0){
         this.toggle_row_selected(0);
         this.security_search.val("");
