@@ -1,15 +1,16 @@
 define([
     'jquery',
     'handlebars',
-    'qgrid.filterbase',
+    './qgrid.filterbase',
     'jquery-ui'
 ], function ($, handlebars, filter_base) {
   "use strict";
 
-  var SliderFilter = function(field){
+  var SliderFilter = function(field) {
     this.base = filter_base.FilterBase;
     this.base(field);
-  }
+  };
+
   SliderFilter.prototype = new filter_base.FilterBase;
 
   SliderFilter.prototype.get_filter_template = function(){
@@ -32,7 +33,7 @@ define([
         "</div>" +
       "</div>"
     );
-  }
+  };
 
   SliderFilter.prototype.include_item = function(item){
     var include_item = true;
@@ -49,7 +50,7 @@ define([
     }
 
     return include_item;
-  }
+  };
 
   SliderFilter.prototype.initialize_controls = function(){
     $.proxy(this.base.prototype.initialize_controls.call(this), this);
@@ -86,16 +87,16 @@ define([
     });
 
     this.handle_filtering_done();
-  }
+  };
 
   SliderFilter.prototype.reset_filter = function(){
     this.filter_value_min = null;
     this.filter_value_max = null;
-  }
+  };
 
   SliderFilter.prototype.is_active = function(){
     return this.filter_value_min || this.filter_value_max;
-  }
+  };
 
   // This function gets called after update_min_max has been called for every row in the grid, which means
   // this.updated_min_value and this.updated_max_value are now up-to-date.
@@ -130,14 +131,14 @@ define([
       this.filter_elem.find(".max-value").html(max_val);
     }
     this.update_filter_button_disabled();
-  }
+  };
 
   SliderFilter.prototype.reset_min_max = function(){
     this.updated_max_value = null;
     this.updated_min_value = null;
     this.first_value = null;
     this.has_multiple_values = false;
-  }
+  };
 
   SliderFilter.prototype.include_item = function(item){
     var include_item = true;
@@ -153,7 +154,7 @@ define([
     }
 
     return include_item;
-  }
+  };
 
   // Slider filters adjust their min/max when other filters cause rows to be excluded from the grid.  This is so the range
   // of values offered remains appropriate based on the rows in the grid.  This function gets called after all filters
@@ -174,7 +175,9 @@ define([
       // in this column.  If there's only one value, the filter button gets greyed out and we show a tooltip when it
       // gets clicked to explain that the filter would do nothing since there's only one value in the column.
       this.update_has_multiple_values(item);
-  }
+  };
 
-  return {'SliderFilter': SliderFilter}
+  return {
+      SliderFilter: SliderFilter
+  };
 });
