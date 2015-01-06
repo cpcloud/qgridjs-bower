@@ -9,12 +9,33 @@ define([
   "use strict";
 
   var dependencies_loaded = false;
-  var grids_to_initialize = []
+  var grids_to_initialize = [];
+  var default_options = {
+      enableCellNavigation: true,
+      fullWidthRows: true,
+      syncColumnCellResize: true,
+      forceFitColumns: true,
+      rowHeight: 28,
+      enableColumnReorder: false,
+      enableTextSelectionOnCells: true
+  };
 
-  var QGrid = function (grid_elem_selector, data_frame, column_types) {
+  var pad = function (n, width, z) {
+      z = z || '0';
+      n = n + '';
+      return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  };
+
+  var QGrid = function (grid_elem_selector, data_frame, column_types,
+                        layout_options) {
     this.grid_elem_selector = grid_elem_selector;
     this.grid_elem = $(this.grid_elem_selector)
     this.data_frame = data_frame;
+
+    if (typeof layout_options === 'undefined')
+        this.layout_options = default_options;
+    else
+        this.layout_options = options;
 
     this.row_data = [];
     this.columns = [];
@@ -29,7 +50,8 @@ define([
       Complex: "number",
       Datetime: "date",
       Integer: "number",
-      UnsignedInteger: "number"
+      UnsignedInteger: "number",
+      Timedelta: "timedelta"
     };
 
     var self = this;
@@ -94,15 +116,7 @@ define([
     this.data_view.setFilter($.proxy(this.include_row, this));
     this.data_view.endUpdate();
 
-    var options = {
-      enableCellNavigation: true,
-      fullWidthRows: true,
-      syncColumnCellResize: true,
-      forceFitColumns: true,
-      rowHeight: 28,
-      enableColumnReorder: false,
-      enableTextSelectionOnCells: true
-    };
+    var options = this.layout_options;
 
     var max_height = options.rowHeight * 15;
     var grid_height = max_height;
@@ -137,14 +151,14 @@ define([
     });
 
     this.data_view.onRowsChanged.subscribe(function(e, args){
-      self.slick_grid.invalidateRows(args.rows)
-      self.slick_grid.render()
+      self.slick_grid.invalidateRows(args.rows);
+      self.slick_grid.render();
     });
 
     $(window).resize(function(){
       self.slick_grid.resizeCanvas();
     });
-  }
+  };
 
   QGrid.prototype.handle_filter_changed = function(e, exclude_this_filter){
     var show_clear_filter_button = false;
@@ -167,7 +181,7 @@ define([
 //    }
 
     this.apply_filters(exclude_this_filter ? e.target : null)
-  }
+  };
 
   QGrid.prototype.apply_filters = function(excluded_filter){
     for (var i=0; i < this.filter_list.length; i++){
@@ -183,7 +197,7 @@ define([
         cur_filter.handle_filtering_done();
       }
     }
-  }
+  };
 
   QGrid.prototype.include_row = function(item, args){
     item.include = true;
@@ -204,7 +218,7 @@ define([
     }
 
     return item.include;
-  }
+  };
 
   QGrid.prototype.handle_sort_changed = function(e, args){
     this.sort_field = args.sortCol.field;
@@ -212,11 +226,11 @@ define([
 
     var sort_comparer = this.get_sort_comparer(this.sort_field, this.sort_ascending);
     this.data_view.sort(sort_comparer, this.sort_ascending);
-  }
+  };
 
   QGrid.prototype.update_sort_indicators = function(){
     this.slick_grid.setSortColumns([ {columnId: this.sort_field, sortAsc: this.sort_ascending} ]);
-  }
+  };
 
   QGrid.prototype.get_sort_comparer = function(field, ascending){
     return function(x, y){
@@ -225,39 +239,47 @@ define([
 
       return (x_value > y_value) ? 1 : -1;
     }
-  }
+  };
 
   QGrid.prototype.handle_header_cell_rendered = function(e, args){
     var cur_filter = this.filters[args.column.id];
     if (cur_filter){
       $.proxy(cur_filter.render_filter_button($(args.node), this.slick_grid), cur_filter);
     }
-  }
+  };
 
   QGrid.prototype.format_date = function(row, cell, value, columnDef, dataContext){
     var date = new Date(value);
     return moment(date).format("YYYY-MM-DD");
-  }
+  };
 
   QGrid.prototype.format_string = function(row, cell, value, columnDef, dataContext){
     return value;
-  }
+  };
 
   QGrid.prototype.format_number = function(row, cell, value, columnDef, dataContext){
     return value;
-  }
+  };
+
+  QGrid.prototype.format_timedelta = function (row, cell, value, columnDef, dataContext) {
+      var data = moment.duration(value)._data;
+      return [data.hours, data.minutes, data.seconds].map(
+          function (item) {
+            return pad(item, 2);
+          }).join(":") + "." + pad(data.milliseconds, 3);
+  };
 
   QGrid.prototype.create_date_filter = function(field){
     return new date_filter.DateFilter(field);
-  }
+  };
 
   QGrid.prototype.create_number_filter = function(field){
     return new slider_filter.SliderFilter(field);
-  }
+  };
 
   QGrid.prototype.create_text_filter = function(field){
     return new text_filter.TextFilter(field);
-  }
+  };
 
 //
 //  QGrid.prototype.create_ticker_filter = function(field){
