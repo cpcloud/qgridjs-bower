@@ -1,10 +1,20 @@
+require.config({
+    paths: {
+        'filterbase': 'qgridjs/js/qgrid.filterbase',
+        'datefilter': 'qgridjs/js/qgrid.datefilter',
+        'securityfilter': 'qgridjs/js/qgrid.securityfilter',
+        'sliderfilter': 'qgridjs/js/qgrid.sliderfilter',
+        'textfilter': 'qgridjs/js/qgrid.textfilter'
+    }
+});
+
 define([
     'jquery',
     'lodash',
     'moment',
-    './qgrid.datefilter',
-    './qgrid.sliderfilter',
-    './qgrid.textfilter'
+    'datefilter',
+    'sliderfilter',
+    'textfilter'
 ], function ($, _, moment, date_filter, slider_filter, text_filter) {
   "use strict";
 
