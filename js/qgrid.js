@@ -27,7 +27,8 @@ define([
       forceFitColumns: true,
       rowHeight: 28,
       enableColumnReorder: false,
-      enableTextSelectionOnCells: true
+      enableTextSelectionOnCells: true,
+      gridHeight: null
   };
 
   var pad = function (n, width, z) {
@@ -128,12 +129,15 @@ define([
 
     var options = this.layout_options;
 
-    var max_height = options.rowHeight * 15;
-    var grid_height = max_height;
+    var max_height = null, grid_height;
+    if (_.isNull(options.gridHeight)) {
+      max_height = options.rowHeight * 15;
+      grid_height = max_height;
+    }
     // totalRowHeight is how tall the grid would have to be to fit all of the rows in the dataframe.
     // The '+ 1' accounts for the height of the column header.
     var total_row_height = (this.row_data.length + 1) * options.rowHeight + 1;
-    if (total_row_height <= max_height){
+    if (!_.isNull(max_height) && total_row_height <= max_height) {
       grid_height = total_row_height;
       this.grid_elem.addClass('hide-scrollbar');
     }
