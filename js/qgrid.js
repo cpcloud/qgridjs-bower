@@ -272,11 +272,15 @@ define([
   };
 
   QGrid.prototype.format_timedelta = function (row, cell, value, columnDef, dataContext) {
+    if (_.isNull(value)) {
+      return "NaD";
+    } else {
       var data = moment.duration(value)._data;
       return [data.hours, data.minutes, data.seconds].map(
           function (item) {
             return pad(item, 2);
           }).join(":") + "." + pad(data.milliseconds, 3);
+    }
   };
 
   QGrid.prototype.create_date_filter = function(field){
