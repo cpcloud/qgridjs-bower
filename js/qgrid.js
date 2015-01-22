@@ -141,7 +141,7 @@ define([
       grid_height = total_row_height;
       this.grid_elem.addClass('hide-scrollbar');
     } else {
-      grid_height = options.grid_height;
+      grid_height = options.gridHeight;
     }
     this.grid_elem.height(grid_height);
 
