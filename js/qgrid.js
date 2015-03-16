@@ -265,8 +265,7 @@ define([
   };
 
   QGrid.prototype.format_date = function(row, cell, value, columnDef, dataContext){
-    var date = new Date(value);
-    return moment(date).format("YYYY-MM-DD");
+    return _.isNull(value) ? "NaT" : moment(new Date(value)).format("YYYY-MM-DD");
   };
 
   QGrid.prototype.format_string = function(row, cell, value, columnDef, dataContext){
