@@ -83,13 +83,13 @@ define([
 
         // make sure we can pass in other things to slickgrid like column
         // css class
-        cur_column = _.merge(cur_column, {
+        cur_column = _.merge({
           name: cur_column.field,
           id: cur_column.field,
           formatter: this["format_" + cur_column.type],
           sortable: true,
           resizable: true
-        });
+        }, cur_column);
 
         var filter_generator = this["create_" + cur_column.type + "_filter"];
         if (filter_generator){
